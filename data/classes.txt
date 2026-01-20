@@ -1,0 +1,7 @@
+Person
+Helmet
+Welding Helmet
+Goggles
+Vest
+Gloves
+Shoes

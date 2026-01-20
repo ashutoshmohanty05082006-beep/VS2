@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VisionSafe | Reports</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="/dashboard">
+                <img src="{{ url_for('static', filename='images/Visionsafelogo.png') }}" alt="Logo">
+                VisionSafe
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logs">Logs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/alerts">Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/reports">Reports</a></li>
+                    <li class="nav-item ps-3 border-start border-secondary">
+                        <a class="nav-link text-danger" href="/">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 mb-5">
+        <h2 class="fw-bold text-dark mb-4"><i class="fas fa-file-invoice-dollar me-2 text-primary"></i> Performance Reports</h2>
+
+        <div class="row">
+            
+            <div class="col-md-5 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="m-0">🏆 Safety Leaderboard</h5>
+                        <span class="badge bg-warning text-dark">Top Performers</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="p-3 bg-light border-bottom">
+                            <small class="text-muted">
+                                <i class="fas fa-user-secret me-1"></i> Anonymized IDs used for privacy.
+                                <br>
+                                "We motivate without shaming."
+                            </small>
+                        </div>
+                        <ul class="list-group list-group-flush" id="leaderboardList">
+                            <li class="list-group-item text-center py-4 text-muted">Loading rankings...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-white">
+                        <h5 class="m-0 fw-bold">🔥 Alert Confidence & Risk Analysis</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small mb-4">
+                            <strong>Safety Confidence Score:</strong> Calculated based on PPE coverage. 
+                            <br>Low coverage = Low Confidence in Safety (Advisory Alert).
+                        </p>
+
+                        <div id="confidenceList">
+                            <div class="text-center py-4"><div class="spinner-border text-primary"></div></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ✅ YOUR PUBLIC API LINK
+        const API_URL = "https://didactic-space-engine-7vj9rvw54979fx7jq-8000.app.github.dev";
+
+        async function loadReports() {
+            try {
+                // Fetch stats from the new endpoint
+                const response = await fetch(`${API_URL}/report_stats`);
+                const data = await response.json();
+
+                // 1. RENDER LEADERBOARD
+                const lbList = document.getElementById("leaderboardList");
+                lbList.innerHTML = "";
+                
+                if (!data.leaderboard || data.leaderboard.length === 0) {
+                    lbList.innerHTML = `<li class="list-group-item text-center">No data available yet.</li>`;
+                } else {
+                    data.leaderboard.forEach((worker, index) => {
+                        // Generate Stars HTML
+                        let starsHtml = "";
+                        for(let i=0; i<Math.floor(worker.stars); i++) starsHtml += '<i class="fas fa-star text-warning"></i>';
+                        if(worker.stars % 1 !== 0) starsHtml += '<i class="fas fa-star-half-alt text-warning"></i>';
+
+                        const row = `
+                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                <div>
+                                    <span class="badge bg-secondary me-2">#${index+1}</span>
+                                    <span class="fw-bold">${worker.id}</span>
+                                </div>
+                                <div>${starsHtml}</div>
+                            </li>
+                        `;
+                        lbList.innerHTML += row;
+                    });
+                }
+
+                // 2. RENDER CONFIDENCE BARS
+                const confList = document.getElementById("confidenceList");
+                confList.innerHTML = "";
+
+                if (!data.recent_confidence || data.recent_confidence.length === 0) {
+                     confList.innerHTML = `<div class="text-center py-4 text-muted">No alerts to analyze yet.</div>`;
+                } else {
+                    data.recent_confidence.forEach(scan => {
+                        // Color Logic: Red for low safety, Green for high
+                        let colorClass = "bg-success";
+                        let label = "High Confidence (Safe)";
+                        
+                        if (scan.score < 50) { 
+                            colorClass = "bg-danger"; 
+                            label = "Low Confidence (Advisory Alert)";
+                        } else if (scan.score < 80) {
+                            colorClass = "bg-warning";
+                            label = "Medium Risk";
+                        }
+
+                        const item = `
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="fw-bold small">${scan.worker_id} <span class="text-muted fw-normal">(${scan.time})</span></span>
+                                    <span class="small fw-bold ${scan.score < 50 ? 'text-danger' : 'text-success'}">${label}</span>
+                                </div>
+                                <div class="progress" style="height: 20px; border-radius: 10px; background-color: #e9ecef;">
+                                    <div class="progress-bar ${colorClass} progress-bar-striped progress-bar-animated" 
+                                         role="progressbar" 
+                                         style="width: ${scan.score}%">
+                                         ${scan.score}% Safety
+                                    </div>
+                                </div>
+                                <div class="small text-muted mt-1">
+                                    Missing Items: ${scan.missing_count}
+                                </div>
+                            </div>
+                        `;
+                        confList.innerHTML += item;
+                    });
+                }
+
+            } catch (err) {
+                console.error("Error loading reports:", err);
+                document.getElementById("leaderboardList").innerHTML = `<li class="list-group-item list-group-item-danger">Backend Error. Check API connection.</li>`;
+            }
+        }
+
+        loadReports();
+    </script>
+
+</body>
+</html>

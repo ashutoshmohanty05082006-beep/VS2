@@ -1,0 +1,220 @@
+/* VISIONSAFE - CYBER INDUSTRIAL THEME */
+:root {
+    --primary-dark: #0d1b2a;   /* Deep Navy Background */
+    --secondary-dark: #1b263b; /* Card/Panel Background */
+    --brand-cyan: #00b4d8;     /* Cyber Cyan (Accents) */
+    --brand-white: #ffffff;
+    --text-grey: #6c757d;
+    --danger-red: #ef233c;     /* Critical Alerts */
+    --success-green: #06d6a0;  /* Status OK */
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --shadow-glow: 0 0 15px rgba(0, 180, 216, 0.3);
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6; /* Very light grey for contrast */
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* ========================= */
+/* NAVBAR DESIGN */
+/* ========================= */
+.navbar-custom {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar-brand img {
+    height: 45px; /* Logo Size */
+    filter: drop-shadow(0 0 5px rgba(0, 180, 216, 0.6)); /* Cyan Glow Effect */
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.7) !important;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: var(--brand-cyan) !important;
+    transform: translateY(-2px);
+}
+
+/* ========================= */
+/* CARDS & STATS */
+/* ========================= */
+.card {
+    border: none;
+    border-radius: 16px;
+    background: white;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+}
+
+.stat-card h6 {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    color: var(--text-grey);
+    font-weight: 700;
+}
+
+.stat-card h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 0;
+}
+
+/* Critical Alert Card Animation */
+.alert-card {
+    border-left: 5px solid var(--danger-red);
+}
+
+.critical-text {
+    color: var(--danger-red);
+    font-weight: 800;
+    font-size: 1.4rem;
+}
+
+/* ========================= */
+/* VIDEO PLAYER SECTION */
+/* ========================= */
+.video-card-header {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge-live {
+    background-color: var(--danger-red);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink { 50% { opacity: 0.5; } }
+
+#videoPlayer {
+    border-radius: 12px;
+    background: black;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Upload Area Styling */
+#uploadSection {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    background-color: #fafafa;
+    transition: 0.3s;
+}
+
+#uploadSection:hover {
+    border-color: var(--brand-cyan);
+    background-color: #f0fbff;
+}
+
+/* ========================= */
+/* TABLES & LOGS */
+/* ========================= */
+.table thead th {
+    background-color: var(--primary-dark);
+    color: white;
+    border: none;
+    padding: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.table tbody td {
+    padding: 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.btn-view {
+    background-color: var(--brand-cyan);
+    color: white;
+    border-radius: 6px;
+    padding: 5px 15px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 180, 216, 0.3);
+    transition: 0.2s;
+}
+
+.btn-view:hover {
+    background-color: #0096c7;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.5);
+}
+
+/* ========================= */
+/* LOGIN PAGE STYLES */
+/* ========================= */
+.login-body {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #2b2d42 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card-glass {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    width: 400px;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.login-logo img {
+    height: 80px;
+    margin-bottom: 1.5rem;
+}
+
+.btn-cyber {
+    background: linear-gradient(90deg, var(--primary-dark), var(--secondary-dark));
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.btn-cyber:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    color: var(--brand-cyan);
+}

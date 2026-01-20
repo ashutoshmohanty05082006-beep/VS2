@@ -1,0 +1,14 @@
+path: ../data  # dataset root dir (relative to where we run training)
+train: train/images  # train images (relative to 'path')
+val: val/images  # val images (relative to 'path')
+
+# Classes
+nc: 7  # number of classes
+names:
+  0: Person
+  1: Helmet
+  2: Welding Helmet
+  3: Goggles
+  4: Vest
+  5: Gloves
+  6: Shoes

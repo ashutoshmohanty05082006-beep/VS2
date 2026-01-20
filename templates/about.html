@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About | VisionSafe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* Dark Cyber Background */
+        body, .about-section {
+            background-color: #0d1b2a; /* Deep Navy */
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* The Watermark Logo - Huge & Centered */
+        .watermark-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;  /* Adjust size as needed */
+            opacity: 0.15; /* Transparency: 15% Visible */
+            z-index: 0;    /* Sits behind text */
+            pointer-events: none;
+        }
+
+        /* The Text Container */
+        .content-overlay {
+            position: relative;
+            z-index: 1; /* Sits ON TOP of logo */
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 100px; /* Push down from navbar */
+        }
+
+        .project-title {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #00b4d8; /* Cyan Brand Color */
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(0, 180, 216, 0.4);
+        }
+
+        .abstract-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-weight: 400;
+            color: #e0e1dd; /* Off-white for readability */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Shadow to read text over logo */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <img src="{{ url_for('static', filename='images/Visionsafelogo.png') }}" height="40" alt="Logo">
+                VisionSafe
+            </a>
+            <div class="ms-auto">
+                <a class="nav-link text-white" href="/dashboard">Back to Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="about-section">
+        
+        <img src="{{ url_for('static', filename='images/Visionsafelogo.png') }}" class="watermark-logo" alt="VisionSafe Watermark">
+
+        <div class="container h-100 d-flex align-items-center justify-content-center">
+            <div class="content-overlay">
+                <h1 class="project-title">Project Abstract</h1>
+                
+                <p class="abstract-text">
+                    <strong>VisionSafe</strong> is an advanced AI-powered safety monitoring system designed to mitigate workplace hazards in industrial environments. 
+                    Leveraging state-of-the-art Computer Vision algorithms (YOLOv8) and deep learning, the system analyzes live video feeds in real-time to detect 
+                    Personal Protective Equipment (PPE) compliance with over 95% accuracy.
+                </p>
+                <br>
+                <p class="abstract-text">
+                    By automatically identifying missing helmets, vests, gloves, and safety gear, VisionSafe reduces the reliance on manual inspections and provides 
+                    instantaneous alerts to site supervisors. This proactive approach minimizes accident risks, ensures regulatory compliance, and fosters a 
+                    safer working culture.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>

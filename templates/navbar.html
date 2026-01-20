@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+
+    <!-- LOGO + NAME -->
+    <a class="navbar-brand d-flex align-items-center" href="/dashboard">
+      <img
+        src="{{ url_for('static', filename='images/Visionsafelogo.png') }}"
+        alt="VisionSafe Logo"
+        style="height:32px; margin-right:8px;">
+      VisionSafe
+    </a>
+
+    <!-- TOGGLER -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNav" aria-controls="navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- NAV LINKS -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <!-- Dashboard -->
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/dashboard">
+            <img
+              src="{{ url_for('static', filename='images/Visionsafeicon.png') }}"
+              style="height:18px; margin-right:6px;">
+            Dashboard
+          </a>
+        </li>
+
+        <!-- Logs -->
+        <li class="nav-item">
+          <a class="nav-link" href="/logs">Logs</a>
+        </li>
+
+        <!-- Alerts -->
+        <li class="nav-item">
+          <a class="nav-link" href="/alerts">Alerts</a>
+        </li>
+
+        <!-- Reports -->
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/reports">
+            <img
+              src="{{ url_for('static', filename='images/Visionsafeicon.png') }}"
+              style="height:18px; margin-right:6px;">
+            Reports
+          </a>
+        </li>
+
+        <!-- Settings -->
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/settings">
+            <img
+              src="{{ url_for('static', filename='images/Visionsafeicon.png') }}"
+              style="height:18px; margin-right:6px;">
+            Settings
+          </a>
+        </li>
+
+        <!-- About -->
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
