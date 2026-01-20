@@ -1,0 +1,11 @@
+# Front-end dependencies (The #1 cause of 10k+ files)
+node_modules/
+package-lock.json
+
+# Any other random python env names
+myenv/
+.env
+lib/
+libs/
+include/
+bin/

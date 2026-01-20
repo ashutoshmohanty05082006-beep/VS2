@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionSafe | Video Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #00C853;
+            --warning-orange: #FF9800;
+            --danger-red: #F44336;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-green) !important;
+        }
+        
+        .container-main {
+            max-width: 900px;
+            margin-top: 40px;
+        }
+        
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header-section h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .header-section p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+        
+        .upload-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        #videoInput {
+            padding: 15px;
+            border: 2px dashed var(--primary-green);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #videoInput:hover {
+            border-color: var(--primary-green);
+            background: #f0f9ff;
+        }
+        
+        .btn-primary {
+            background: var(--primary-green);
+            border: none;
+            font-weight: bold;
+            padding: 12px 30px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #00a83d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,200,83,0.3);
+        }
+        
+        .loading-section {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner-border {
+            width: 4rem;
+            height: 4rem;
+            color: var(--primary-green);
+        }
+        
+        .result-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .result-section h4 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        #resultVideo {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .btn-download {
+            background: var(--primary-green);
+            color: white;
+            padding: 10px 30px;
+            margin-top: 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-download:hover {
+            background: #00a83d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,200,83,0.3);
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            color: #1976d2;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid var(--warning-orange);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            color: #e65100;
+        }
+        
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">🛡️ VisionSafe AI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Analyze Video</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-main">
+        <!-- Header -->
+        <div class="header-section">
+            <h1>📹 Analyze Video</h1>
+            <p>Upload a site recording to detect PPE violations and safety hazards</p>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-card">
+            <div class="warning-box">
+                <strong>⏱️ Pro Tip:</strong> For best results, upload <strong>short clips (5-10 seconds)</strong>. 
+                Processing takes approximately 2-3 seconds per second of video on cloud servers.
+            </div>
+
+            <div class="file-input-wrapper">
+                <input 
+                    type="file" 
+                    id="videoInput" 
+                    class="form-control" 
+                    accept="video/*"
+                    placeholder="Select a video file..."
+                >
+            </div>
+
+            <button class="btn btn-primary w-100" onclick="uploadVideo()">
+                🚀 Upload & Analyze
+            </button>
+
+            <div class="info-box mt-3">
+                <strong>ℹ️ Supported Formats:</strong> MP4, AVI, MOV, MKV (any video format)
+            </div>
+        </div>
+
+        <!-- Loading Section (Hidden by default) -->
+        <div id="loadingSection" class="loading-section d-none">
+            <div class="spinner-border" role="status"></div>
+            <h5 class="mt-3">Processing Video...</h5>
+            <p class="text-muted">The AI is analyzing every frame for safety violations.</p>
+            <p class="text-muted small"><em>This may take a minute depending on video length.</em></p>
+        </div>
+
+        <!-- Result Section (Hidden by default) -->
+        <div id="resultSection" class="result-section d-none">
+            <h4>✅ Analysis Complete!</h4>
+            <p class="text-muted">Bounding boxes show detected persons and PPE equipment.</p>
+            
+            <video 
+                id="resultVideo" 
+                controls
+                style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+            ></video>
+            
+            <br>
+            <a id="downloadLink" href="#" class="btn-download" download>
+                ⬇️ Download Analyzed Video
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 🔑 UPDATE THIS WITH YOUR PUBLIC API URL
+        // Example: https://didactic-space-engine-7vj9rvw54979fx7jq-8000.app.github.dev
+        const API_URL = "http://localhost:8000"; // Change to your public forwarded address
+
+        async function uploadVideo() {
+            const fileInput = document.getElementById("videoInput");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("❌ Please select a video file first!");
+                return;
+            }
+
+            // Show loading, hide result
+            document.getElementById("loadingSection").classList.remove("d-none");
+            document.getElementById("resultSection").classList.add("d-none");
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                console.log("📤 Uploading video...");
+                
+                const response = await fetch(`${API_URL}/upload_video`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+                console.log("📥 Response:", data);
+
+                if (data.status === "completed" && data.video_url) {
+                    // Success! Display the processed video
+                    const videoPlayer = document.getElementById("resultVideo");
+                    const downloadBtn = document.getElementById("downloadLink");
+
+                    // Construct full URL for video
+                    const videoURL = API_URL + data.video_url;
+                    videoPlayer.src = videoURL;
+                    downloadBtn.href = videoURL;
+                    downloadBtn.download = data.filename;
+
+                    document.getElementById("loadingSection").classList.add("d-none");
+                    document.getElementById("resultSection").classList.remove("d-none");
+
+                    console.log("✅ Video ready:", videoURL);
+                } else {
+                    alert("❌ Error: " + (data.error || data.message || "Unknown error"));
+                    document.getElementById("loadingSection").classList.add("d-none");
+                }
+
+            } catch (err) {
+                console.error("❌ Error:", err);
+                alert("❌ Failed to connect to backend.\n\nCheck:\n1. Is the backend running on port 8000?\n2. Is the API_URL correct?\n\nOpen browser console (F12) for details.");
+                document.getElementById("loadingSection").classList.add("d-none");
+            }
+        }
+
+        // Drag-and-drop support
+        const videoInput = document.getElementById("videoInput");
+        
+        videoInput.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            videoInput.style.borderColor = "#00a83d";
+            videoInput.style.background = "#f0f9ff";
+        });
+
+        videoInput.addEventListener("dragleave", () => {
+            videoInput.style.borderColor = "var(--primary-green)";
+            videoInput.style.background = "transparent";
+        });
+
+        videoInput.addEventListener("drop", (e) => {
+            e.preventDefault();
+            videoInput.style.borderColor = "var(--primary-green)";
+            videoInput.style.background = "transparent";
+            
+            if (e.dataTransfer.files.length > 0) {
+                videoInput.files = e.dataTransfer.files;
+            }
+        });
+    </script>
+</body>
+</html>
